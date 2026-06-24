@@ -5,36 +5,34 @@ import { parseExpression } from './parseExpression';
 const expectEvaluation = (input: string, expected: number | boolean) => {
   const parseResult = parseExpression(input);
 
-  expect(parseResult.ok).toBe(true);
-
   if (!parseResult.ok) {
-    throw new Error(parseResult.error.message);
+    throw new Error(
+      `Expected "${input}" to parse, but got error: ${parseResult.error.message}`,
+    );
   }
 
   expect(evaluateExpression(parseResult.ast)).toBe(expected);
 };
 
 describe('parseExpression', () => {
-  it('parses and evaluates equality expressions', () => {
-    expectEvaluation('1 + 2 = 3', true);
-    expectEvaluation('2 * 3 + 4 = 10', true);
-    expectEvaluation('2 * (3 + 4) = 10', false);
-    expectEvaluation('6 = 10 / 2 + 1', true);
-    expectEvaluation('2 + 3 * 2 = 10', false);
+  it.each([
+    ['1 + 2 = 3', true],
+    ['2 * 3 + 4 = 10', true],
+    ['2 * (3 + 4) = 10', false],
+    ['6 = 10 / 2 + 1', true],
+    ['12 + 3 != 4 / 2 + 5', true],
+    ['2 + 3 * 2 = 10', false],
+    ['2 * 3 + 4 != 10', false],
+  ])('parses and evaluates "%s"', (input, expected) => {
+    expectEvaluation(input, expected);
   });
 
-  it('parses and evaluates inequality expressions', () => {
-    expectEvaluation('12 + 3 != 4 / 2 + 5', true);
-    expectEvaluation('2 * 3 + 4 != 10', false);
-  });
-
-  it('parses and evaluates arithmetic-only expressions', () => {
-    expectEvaluation('1 + 2 * 3', 7);
-    expectEvaluation('2 * (3 + 4)', 14);
-  });
-
-  it('ignores whitespace', () => {
-    expectEvaluation('  1   +   2   =   3  ', true);
+  it.each([
+    ['1 + 2 * 3', 7],
+    ['2 * (3 + 4)', 14],
+    ['  1   +   2   =   3  ', true],
+  ])('handles additional expression "%s"', (input, expected) => {
+    expectEvaluation(input, expected);
   });
 
   it('returns an error for invalid input', () => {

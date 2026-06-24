@@ -9,7 +9,7 @@ export const lexer = moo.compile({
   equals: '=',
   plus: '+',
   minus: '-',
-  multiply: '*',
+  times: '*',
   divide: '/',
   leftParen: '(',
   rightParen: ')',

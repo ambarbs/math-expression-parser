@@ -13,7 +13,7 @@ describe('lexer', () => {
   it('tokenises arithmetic expressions', () => {
     expect(getTokenTypes('2 * 3 + 4')).toEqual([
       'number',
-      'multiply',
+      'times',
       'number',
       'plus',
       'number',
@@ -33,7 +33,7 @@ describe('lexer', () => {
   it('tokenises parentheses', () => {
     expect(getTokenTypes('2 * (3 + 4)')).toEqual([
       'number',
-      'multiply',
+      'times',
       'leftParen',
       'number',
       'plus',
