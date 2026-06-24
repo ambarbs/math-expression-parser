@@ -8,10 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "build:grammar": "nearleyc src/parser/grammar.ne -o src/parser/grammar.js"
   },
   "dependencies": {
     "moo": "^0.5.3",
+    "nearley": "^2.20.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
@@ -19,6 +21,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/moo": "^0.5.10",
+    "@types/nearley": "^2.11.5",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
