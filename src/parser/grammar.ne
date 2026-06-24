@@ -3,6 +3,13 @@ const { lexer } = require("./lexer");
 
 const id = ([value]) => value;
 
+const comparisonExpression = (left, operatorToken, right) => ({
+  type: "ComparisonExpression",
+  operator: operatorToken.value,
+  left,
+  right,
+});
+
 const binaryExpression = (left, operatorToken, right) => ({
   type: "BinaryExpression",
   operator: operatorToken.value,
@@ -19,7 +26,7 @@ const numberLiteral = ([token]) => ({
 @lexer lexer
 
 main
-  -> _ Addition _ {% ([, expression]) => expression %}
+  -> _ Comparison _ {% ([, expression]) => expression %}
 
 Addition
   -> Addition _ %plus _ Multiplication {% ([left, , operator, , right]) => binaryExpression(left, operator, right) %}
@@ -34,6 +41,11 @@ Multiplication
 Primary
   -> %number {% numberLiteral %}
    | %leftParen _ Addition _ %rightParen {% ([, , expression]) => expression %}
+
+Comparison
+  -> Addition _ %equals _ Addition {% ([left, , operator, , right]) => comparisonExpression(left, operator, right) %}
+   | Addition _ %notEquals _ Addition {% ([left, , operator, , right]) => comparisonExpression(left, operator, right) %}
+   | Addition {% id %}
 
 _
   -> %whitespace:* {% () => null %}

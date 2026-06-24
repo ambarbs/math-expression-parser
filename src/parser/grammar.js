@@ -7,6 +7,13 @@ const { lexer } = require("./lexer");
 
 const id = ([value]) => value;
 
+const comparisonExpression = (left, operatorToken, right) => ({
+  type: "ComparisonExpression",
+  operator: operatorToken.value,
+  left,
+  right,
+});
+
 const binaryExpression = (left, operatorToken, right) => ({
   type: "BinaryExpression",
   operator: operatorToken.value,
@@ -21,7 +28,7 @@ const numberLiteral = ([token]) => ({
 var grammar = {
     Lexer: lexer,
     ParserRules: [
-    {"name": "main", "symbols": ["_", "Addition", "_"], "postprocess": ([, expression]) => expression},
+    {"name": "main", "symbols": ["_", "Comparison", "_"], "postprocess": ([, expression]) => expression},
     {"name": "Addition", "symbols": ["Addition", "_", (lexer.has("plus") ? {type: "plus"} : plus), "_", "Multiplication"], "postprocess": ([left, , operator, , right]) => binaryExpression(left, operator, right)},
     {"name": "Addition", "symbols": ["Addition", "_", (lexer.has("minus") ? {type: "minus"} : minus), "_", "Multiplication"], "postprocess": ([left, , operator, , right]) => binaryExpression(left, operator, right)},
     {"name": "Addition", "symbols": ["Multiplication"], "postprocess": id},
@@ -30,6 +37,9 @@ var grammar = {
     {"name": "Multiplication", "symbols": ["Primary"], "postprocess": id},
     {"name": "Primary", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": numberLiteral},
     {"name": "Primary", "symbols": [(lexer.has("leftParen") ? {type: "leftParen"} : leftParen), "_", "Addition", "_", (lexer.has("rightParen") ? {type: "rightParen"} : rightParen)], "postprocess": ([, , expression]) => expression},
+    {"name": "Comparison", "symbols": ["Addition", "_", (lexer.has("equals") ? {type: "equals"} : equals), "_", "Addition"], "postprocess": ([left, , operator, , right]) => comparisonExpression(left, operator, right)},
+    {"name": "Comparison", "symbols": ["Addition", "_", (lexer.has("notEquals") ? {type: "notEquals"} : notEquals), "_", "Addition"], "postprocess": ([left, , operator, , right]) => comparisonExpression(left, operator, right)},
+    {"name": "Comparison", "symbols": ["Addition"], "postprocess": id},
     {"name": "_$ebnf$1", "symbols": []},
     {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", (lexer.has("whitespace") ? {type: "whitespace"} : whitespace)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": () => null}
