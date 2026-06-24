@@ -1,6 +1,5 @@
 export type ArithmeticOperator = '+' | '-' | '*' | '/';
 export type ComparisonOperator = '=' | '!=';
-export type UnaryOperator = '-';
 
 export type NumberLiteralNode = {
   type: 'NumberLiteral';
