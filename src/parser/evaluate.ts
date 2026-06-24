@@ -65,3 +65,29 @@ export const evaluateArithmeticExpression = (
     }
   }
 };
+
+export const evaluateExpression = (
+  expression: ExpressionNode,
+): number | boolean => {
+  if (!isComparisonExpression(expression)) {
+    return evaluateArithmeticExpression(expression);
+  }
+
+  const left = evaluateArithmeticExpression(expression.left);
+  const right = evaluateArithmeticExpression(expression.right);
+  const operator = expression.operator;
+  switch (operator) {
+    case '=':
+      return isNearlyEqual(left, right);
+
+    case '!=':
+      return !isNearlyEqual(left, right);
+
+    default: {
+      const unsupportedComparisonOperator: never = operator;
+      throw new Error(
+        `Unsupported comparison operator: ${unsupportedComparisonOperator}`,
+      );
+    }
+  }
+};
