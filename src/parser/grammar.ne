@@ -1,7 +1,7 @@
 @{%
-const { lexer } = require("./lexer");
+const { lexer } = require("./lexer.cjs");
 
-const id = ([value]) => value;
+const unwrap = ([value]) => value;
 
 const comparisonExpression = (left, operatorToken, right) => ({
   type: "ComparisonExpression",
@@ -31,12 +31,12 @@ main
 Addition
   -> Addition _ %plus _ Multiplication {% ([left, , operator, , right]) => binaryExpression(left, operator, right) %}
    | Addition _ %minus _ Multiplication {% ([left, , operator, , right]) => binaryExpression(left, operator, right) %}
-   | Multiplication {% id %}
+   | Multiplication {% unwrap %}
 
 Multiplication
   -> Multiplication _ %times _ Primary {% ([left, , operator, , right]) => binaryExpression(left, operator, right) %}
    | Multiplication _ %divide _ Primary {% ([left, , operator, , right]) => binaryExpression(left, operator, right) %}
-   | Primary {% id %}
+   | Primary {% unwrap %}
 
 Primary
   -> %number {% numberLiteral %}
@@ -45,7 +45,7 @@ Primary
 Comparison
   -> Addition _ %equals _ Addition {% ([left, , operator, , right]) => comparisonExpression(left, operator, right) %}
    | Addition _ %notEquals _ Addition {% ([left, , operator, , right]) => comparisonExpression(left, operator, right) %}
-   | Addition {% id %}
+   | Addition {% unwrap %}
 
 _
   -> %whitespace:* {% () => null %}
