@@ -1,10 +1,10 @@
 # Math Expression Parser
 
-A small React + TypeScript application that parses mathematical expressions using **Nearley** and **Moo**, displays the parsed Abstract Syntax Tree (AST), and evaluates the expression result.
+A small React + TypeScript application that parses mathematical expressions using **Nearley** and **Moo**, displays the parsed Abstract Syntax Tree (AST) and evaluates the expression result.
 
 ## Features
 
-* Parses arithmetic expressions using `+`, `-`, `*`, and `/`
+* Parses arithmetic expressions using `+`, `-`, `*` and `/`
 * Supports comparison operators `=` and `!=`
 * Handles parentheses for explicit grouping
 * Ignores whitespace in expressions
@@ -89,7 +89,7 @@ Input string
   -> Result
 ```
 
-Moo tokenises the raw input string into typed tokens such as numbers, operators, and parentheses.
+Moo tokenises the raw input string into typed tokens such as numbers, operators and parentheses.
 
 Nearley consumes those tokens using the grammar rules and produces an AST.
 
@@ -99,7 +99,7 @@ The evaluator walks the AST and returns either a number or a boolean result.
 
 `src/parser/grammar.ne` contains the Nearley grammar source.
 
-`src/parser/grammar.js` is the generated grammar used by the app. If the grammar source is changed, regenerate the grammar and verify the app, tests, and production build still pass.
+`src/parser/grammar.js` is the generated grammar used by the app. If the grammar source is changed, regenerate the grammar and verify the app, tests and production build still pass.
 
 ## Validation
 
