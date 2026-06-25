@@ -103,4 +103,4 @@ The evaluator walks the AST and returns either a number or a boolean result.
 
 ## Validation
 
-The test suite covers the supplied homework examples, arithmetic precedence, parentheses, whitespace handling, arithmetic only expressions and invalid input handling.
+The test suite covers the example inputs, arithmetic precedence, parentheses, whitespace handling, arithmetic only expressions and invalid input handling.

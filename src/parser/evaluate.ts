@@ -18,7 +18,7 @@ const isNearlyEqual = (left: number, right: number): boolean => {
   );
 };
 
-const applyArithMeticOperator = (
+const applyArithmeticOperator = (
   operator: ArithmeticOperator,
   left: number,
   right: number,
@@ -54,7 +54,7 @@ export const evaluateArithmeticExpression = (
     case 'BinaryExpression': {
       const left = evaluateArithmeticExpression(expression.left);
       const right = evaluateArithmeticExpression(expression.right);
-      return applyArithMeticOperator(expression.operator, left, right);
+      return applyArithmeticOperator(expression.operator, left, right);
     }
 
     default: {
